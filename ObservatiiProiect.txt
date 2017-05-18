@@ -1,0 +1,22 @@
+Make ObjectDB work:
+
+	-Creati un folder lib in cadrul proiectului care il foloseste (in cazul nostru doar DAL):click dreapta pe proiect in eclipse,New Folder
+	-adaugati jarul de objectdb in folderul lib (merge cu drag & drop)
+	-adaugati jarul din folderul lib in MANIFEST.MF -> Runtime -> Classpath-> Add...
+
+Observatii legate de implementarea PersistenceUtility si de DB in general:
+	-am vazut ca ati pus un field String creator, la care i-am pus adnotarea @GeneratedValue
+	-@GeneratedValue nu stie sa lucreze decat cu int-uri!!! si este de preferat sa il folositi pentru ID-uri mai mult
+	-am vazut la un moment dat in proiect in layerul de UI foloseati un obiect din DAL, which is a big NONO!! un layer nu are voie sa aiba dependinte decat catre layerul de deasupra lui: UI-AL,AL-BL,BL-DAL
+
+Observatii legate de cod:
+	-Ctrl+a; Ctrl+Shift+f : codul este identat automat si arata mai frumos si mai usor de citit
+	
+Am mai adaugat un layer, RequirementDMO (Domain Model Object)
+	-am mutat implementarea entitatii Requirement in DAL
+	-in BL am creat un RequirementDMO, care este efectiv maparea entitatii pe un obiect java simplu
+	-am facut asta pentru a nu avea dependinte intre DAL si AL 
+	-RequirementDMO va fi mapat pe entitatea din DAL si dupa acea trimis spre AL si mapat pe RequirementDTO, care va putea fi transmis catre UI
+	-in acest fel avem DAL-ul complet separat, singurula acces catre el fiind acel RequirementRepository care in implementarea lui stie sa lucreze si cu DMO-uri si cu entitati
+
+Daca mai aveti intrebari mai discutam
